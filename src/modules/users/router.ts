@@ -10,7 +10,6 @@ router
   .route('/users')
   .post(
     isAuthenticated,
-    isAuthenticated,
     createUser
     );
 router.route('/sign_in').post(userSignIn);

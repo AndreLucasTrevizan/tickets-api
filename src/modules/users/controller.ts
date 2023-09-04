@@ -41,7 +41,7 @@ export const createUser = async (
       name,
       email,
       password: password_hash,
-      role_id: role_id ? role_id : default_role.id,
+      role_id: role_id ? Number(role_id) : default_role.id,
     },
     select: {
       id: true,
