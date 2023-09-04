@@ -20,7 +20,7 @@ export const createUser = async (
   res: Response
 ) => {
   const { name, email, password, role_id } = req.body;
-  
+
   const users_exists = await prismaClient.user.findFirst({
     where: { email }
   });
@@ -69,7 +69,9 @@ export const userSignIn = async (
       role: {
         select: {
           id: true,
-          name: true
+          name: true,
+          created_at: true,
+          updated_at: true,
         }
       }
     }
@@ -100,6 +102,14 @@ export const listUsers = async (
       avatar: true,
       name: true,
       email: true,
+      role: {
+        select: {
+          id: true,
+          name: true,
+          created_at: true,
+          updated_at: true,
+        }
+      },
       created_at: true,
       updated_at: true
     }
@@ -117,7 +127,6 @@ export const getUserProfile = async (
   const user = await prismaClient.user.findFirst({
     where: { code: req.user.code },
     select: {
-      id: true,
       code: true,
       avatar: true,
       name: true,
@@ -125,7 +134,9 @@ export const getUserProfile = async (
       role: {
         select: {
           id: true,
-          name: true
+          name: true,
+          created_at: true,
+          updated_at: true
         }
       },
       created_at: true,
@@ -154,7 +165,7 @@ export const updateUserAvatar = async (
   if (user.avatar !== 'default.png' && user.avatar !== '') {
     fs.unlink(`${__dirname}/../../uploads/avatars/${user.avatar}`, (err) => {
       if (err) throw new Error('Erro ao deletar avatar, ' + err.message);
-    
+
       console.log(`Avatar ${user.avatar} deletado`);
     });
   }
@@ -173,6 +184,8 @@ export const updateUserAvatar = async (
         select: {
           id: true,
           name: true,
+          created_at: true,
+          updated_at: true
         }
       },
       created_at: true,
